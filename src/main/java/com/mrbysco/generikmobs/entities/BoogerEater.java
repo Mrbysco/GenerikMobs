@@ -3,13 +3,16 @@ package com.mrbysco.generikmobs.entities;
 import com.mrbysco.generikmobs.GenerikMod;
 import com.mrbysco.generikmobs.entities.goal.ThrowBoogerGoal;
 import com.mrbysco.generikmobs.entities.projectile.BoogerProjectile;
+import com.mrbysco.generikmobs.registry.GenerikSounds;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -72,6 +75,21 @@ public class BoogerEater extends Monster implements RangedAttackMob {
 		super.defineSynchedData();
 		this.getEntityData().define(MODE, (byte) 0);
 		this.getEntityData().define(IS_THROWING, false);
+	}
+
+	@Override
+	protected SoundEvent getAmbientSound() {
+		return GenerikSounds.BOOGER_EATER_IDLE.get();
+	}
+
+	@Override
+	protected SoundEvent getHurtSound(DamageSource damageSource) {
+		return GenerikSounds.BOOGER_EATER_HURT.get();
+	}
+
+	@Override
+	protected SoundEvent getDeathSound() {
+		return GenerikSounds.BOOGER_EATER_DEATH.get();
 	}
 
 	public byte getMode() {
