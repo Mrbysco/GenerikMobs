@@ -9,14 +9,13 @@ import com.mrbysco.generikmobs.client.renderer.BoogerProjectileRenderer;
 import com.mrbysco.generikmobs.client.renderer.BoogerRenderer;
 import com.mrbysco.generikmobs.registry.GenerikMobs;
 import net.minecraft.client.model.geom.ModelLayerLocation;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 
 public class ClientHandler {
-	public static final ModelLayerLocation BOOGER_EATER = new ModelLayerLocation(new ResourceLocation(GenerikMod.MOD_ID, "booger_eater"), "main");
-	public static final ModelLayerLocation BOOGER_PROJECTILE = new ModelLayerLocation(new ResourceLocation(GenerikMod.MOD_ID, "booger_projectile"), "main");
-	public static final ModelLayerLocation BOOGER = new ModelLayerLocation(new ResourceLocation(GenerikMod.MOD_ID, "booger"), "main");
-	public static final ModelLayerLocation BOOGER_OUTER = new ModelLayerLocation(new ResourceLocation(GenerikMod.MOD_ID, "booger"), "outer");
+	public static final ModelLayerLocation BOOGER_EATER = new ModelLayerLocation(GenerikMod.modLoc("booger_eater"), "main");
+	public static final ModelLayerLocation BOOGER_PROJECTILE = new ModelLayerLocation(GenerikMod.modLoc("booger_projectile"), "main");
+	public static final ModelLayerLocation BOOGER = new ModelLayerLocation(GenerikMod.modLoc("booger"), "main");
+	public static final ModelLayerLocation BOOGER_OUTER = new ModelLayerLocation(GenerikMod.modLoc("booger"), "outer");
 
 	public static void registerEntityRenders(EntityRenderersEvent.RegisterRenderers event) {
 		event.registerEntityRenderer(GenerikMobs.BOOGER_EATER.get(), BoogerEaterRenderer::new);

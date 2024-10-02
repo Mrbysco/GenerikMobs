@@ -3,6 +3,8 @@ package com.mrbysco.generikmobs;
 import com.mojang.logging.LogUtils;
 import com.mrbysco.generikmobs.client.ClientHandler;
 import com.mrbysco.generikmobs.registry.GenerikMobs;
+import com.mrbysco.generikmobs.registry.GenerikSounds;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -18,6 +20,7 @@ public class GenerikMod {
 		IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
 		GenerikMobs.ENTITY_TYPES.register(eventBus);
+		GenerikSounds.SOUND_EVENTS.register(eventBus);
 
 		eventBus.addListener(GenerikMobs::registerAttributes);
 
@@ -25,5 +28,9 @@ public class GenerikMod {
 			eventBus.addListener(ClientHandler::registerEntityRenders);
 			eventBus.addListener(ClientHandler::registerLayerDefinitions);
 		}
+	}
+
+	public static ResourceLocation modLoc(String path) {
+		return new ResourceLocation(MOD_ID, path);
 	}
 }

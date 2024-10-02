@@ -15,7 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
 public class BoogerProjectileRenderer extends EntityRenderer<BoogerProjectile> {
-	private static final ResourceLocation BOOGER_PROJECTILE_TEXTURE = new ResourceLocation(GenerikMod.MOD_ID, "textures/entity/booger_projectile/booger_projectile.png");
+	private static final ResourceLocation BOOGER_PROJECTILE_TEXTURE = GenerikMod.modLoc("textures/entity/booger_projectile/booger_projectile.png");
 	private final BoogerProjectileModel<BoogerProjectile> model;
 
 	public BoogerProjectileRenderer(EntityRendererProvider.Context context) {

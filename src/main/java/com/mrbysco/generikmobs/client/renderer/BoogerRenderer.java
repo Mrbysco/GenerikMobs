@@ -13,7 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
 public class BoogerRenderer extends MobRenderer<Booger, BoogerModel<Booger>> {
-	private static final ResourceLocation HEAD_LOCATION = new ResourceLocation(GenerikMod.MOD_ID, "textures/entity/booger/booger_head.png");
+	private static final ResourceLocation HEAD_LOCATION = GenerikMod.modLoc("textures/entity/booger/booger_head.png");
 
 	public BoogerRenderer(EntityRendererProvider.Context context) {
 		super(context, new BoogerModel<>(context.bakeLayer(ClientHandler.BOOGER)), 0.25F);

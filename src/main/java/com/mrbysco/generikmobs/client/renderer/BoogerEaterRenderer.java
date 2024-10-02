@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 
 public class BoogerEaterRenderer extends MobRenderer<BoogerEater, BoogerEaterModel<BoogerEater>> {
-	private static final ResourceLocation BOOGER_EATER_TEXTURE = new ResourceLocation(GenerikMod.MOD_ID, "textures/entity/booger_eater/booger_eater.png");
+	private static final ResourceLocation BOOGER_EATER_TEXTURE = GenerikMod.modLoc("textures/entity/booger_eater/booger_eater.png");
 	public BoogerEaterRenderer(EntityRendererProvider.Context context) {
 		super(context, new BoogerEaterModel<>(context.bakeLayer(ClientHandler.BOOGER_EATER)), 0.3F);
 	}

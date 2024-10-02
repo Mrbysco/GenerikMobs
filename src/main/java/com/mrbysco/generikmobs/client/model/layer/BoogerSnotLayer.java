@@ -20,7 +20,7 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
 public class BoogerSnotLayer<T extends Booger> extends RenderLayer<T, BoogerModel<T>> {
-	private static final ResourceLocation BOOGER_LOCATION = new ResourceLocation(GenerikMod.MOD_ID, "textures/entity/booger/booger_medium.png");
+	private static final ResourceLocation BOOGER_LOCATION = GenerikMod.modLoc("textures/entity/booger/booger_medium.png");
 	private final BoogerModel<T> model;
 	private final ItemRenderer itemRenderer;
 
