@@ -1,0 +1,81 @@
+{
+  "booger_eater.death": {
+    "sounds": [
+      {
+        "name": "generikmobs:death1",
+        "pitch": 0.8
+      },
+      {
+        "name": "generikmobs:death2",
+        "pitch": 0.8
+      },
+      {
+        "name": "generikmobs:death3",
+        "pitch": 0.8
+      },
+      {
+        "name": "generikmobs:death4",
+        "pitch": 0.8
+      }
+    ],
+    "subtitle": "generikmobs.subtitle.booger_eater.death"
+  },
+  "booger_eater.hurt": {
+    "sounds": [
+      {
+        "name": "generikmobs:hurt1",
+        "pitch": 0.8
+      },
+      {
+        "name": "generikmobs:hurt2",
+        "pitch": 0.8
+      },
+      {
+        "name": "generikmobs:hurt2",
+        "pitch": 0.8
+      },
+      {
+        "name": "generikmobs:growl1",
+        "pitch": 0.8
+      },
+      {
+        "name": "generikmobs:growl2",
+        "pitch": 0.8
+      }
+    ],
+    "subtitle": "generikmobs.subtitle.booger_eater.hurt"
+  },
+  "booger_eater.idle": {
+    "sounds": [
+      {
+        "name": "generikmobs:hermitcraft",
+        "pitch": 0.8
+      },
+      {
+        "name": "generikmobs:meee1",
+        "pitch": 0.8
+      },
+      {
+        "name": "generikmobs:meee2",
+        "pitch": 0.8
+      },
+      {
+        "name": "generikmobs:meee3",
+        "pitch": 0.8
+      },
+      {
+        "name": "generikmobs:meee4",
+        "pitch": 0.8
+      },
+      {
+        "name": "generikmobs:meeegrowl",
+        "pitch": 0.8
+      },
+      {
+        "name": "generikmobs:server",
+        "pitch": 0.8
+      }
+    ],
+    "subtitle": "generikmobs.subtitle.booger_eater.idle"
+  }
+}
