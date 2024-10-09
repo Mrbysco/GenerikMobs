@@ -1,6 +1,5 @@
 package com.mrbysco.generikmobs.entities.goal;
 
-import com.mrbysco.generikmobs.GenerikMod;
 import com.mrbysco.generikmobs.entities.BoogerEater;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
@@ -94,7 +93,6 @@ public class ThrowBoogerGoal extends Goal {
 
 		this.boogerEater.getLookControl().setLookAt(this.target, 30.0F, 30.0F);
 		if (this.attackTime == 20) {
-			GenerikMod.LOGGER.debug("BoogerEater Play animation!");
 			this.boogerEater.setThrowing(true);
 		}
 		if (--this.attackTime == 0) {
