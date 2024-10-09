@@ -31,10 +31,10 @@ public class BoogerRenderer extends MobRenderer<Booger, BoogerModel<Booger>> {
 	protected void scale(Booger booger, PoseStack poseStack, float partialTickTime) {
 		poseStack.scale(0.999F, 0.999F, 0.999F);
 		poseStack.translate(0.0F, 0.001F, 0.0F);
-		float f1 = (float) booger.getSize();
-		float f2 = Mth.lerp(partialTickTime, booger.oSquish, booger.squish) / (f1 * 0.5F + 1.0F);
+		float size = (float) booger.getSize();
+		float f2 = Mth.lerp(partialTickTime, booger.oSquish, booger.squish) / (size * 0.5F + 1.0F);
 		float f3 = 1.0F / (f2 + 1.0F);
-		poseStack.scale(f3 * f1, 1.0F / f3 * f1, f3 * f1);
+		poseStack.scale(f3 * size, 1.0F / f3 * size, f3 * size);
 	}
 
 	/**
