@@ -2,6 +2,7 @@ package com.mrbysco.generikmobs.datagen.client;
 
 import com.mrbysco.generikmobs.GenerikMod;
 import com.mrbysco.generikmobs.registry.GenerikMobs;
+import com.mrbysco.generikmobs.registry.GenerikRegistry;
 import com.mrbysco.generikmobs.registry.GenerikSounds;
 import net.minecraft.data.PackOutput;
 import net.minecraft.sounds.SoundEvent;
@@ -16,6 +17,8 @@ public class GenerikLanguageProvider extends LanguageProvider {
 
 	@Override
 	protected void addTranslations() {
+		this.addBlock(GenerikRegistry.SLIME_PUDDLE, "Slime Puddle");
+
 		this.addEntityType(GenerikMobs.BOOGER, "Booger");
 		this.addEntityType(GenerikMobs.BOOGER_EATER, "Booger Eater");
 		this.addEntityType(GenerikMobs.BOOGER_PROJECTILE, "Booger Projectile");

@@ -1,5 +1,7 @@
 package com.mrbysco.generikmobs.datagen;
 
+import com.mrbysco.generikmobs.datagen.client.GenerikBlockStateProvider;
+import com.mrbysco.generikmobs.datagen.client.GenerikItemModelProvider;
 import com.mrbysco.generikmobs.datagen.client.GenerikLanguageProvider;
 import com.mrbysco.generikmobs.datagen.client.GenerikSoundProvider;
 import net.minecraft.core.HolderLookup;
@@ -27,6 +29,8 @@ public class GenerikDataGenerator {
 		if (event.includeClient()) {
 			generator.addProvider(event.includeClient(), new GenerikLanguageProvider(packOutput));
 			generator.addProvider(event.includeClient(), new GenerikSoundProvider(packOutput, helper));
+			generator.addProvider(event.includeClient(), new GenerikBlockStateProvider(packOutput, helper));
+			generator.addProvider(event.includeClient(), new GenerikItemModelProvider(packOutput, helper));
 		}
 	}
 }

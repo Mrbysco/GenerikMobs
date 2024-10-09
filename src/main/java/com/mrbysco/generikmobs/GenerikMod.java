@@ -3,6 +3,7 @@ package com.mrbysco.generikmobs;
 import com.mojang.logging.LogUtils;
 import com.mrbysco.generikmobs.client.ClientHandler;
 import com.mrbysco.generikmobs.registry.GenerikMobs;
+import com.mrbysco.generikmobs.registry.GenerikRegistry;
 import com.mrbysco.generikmobs.registry.GenerikSounds;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -19,6 +20,8 @@ public class GenerikMod {
 	public GenerikMod() {
 		IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
+		GenerikRegistry.BLOCKS.register(eventBus);
+		GenerikRegistry.ITEMS.register(eventBus);
 		GenerikMobs.ENTITY_TYPES.register(eventBus);
 		GenerikSounds.SOUND_EVENTS.register(eventBus);
 

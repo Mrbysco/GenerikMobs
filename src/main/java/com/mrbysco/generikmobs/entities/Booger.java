@@ -1,5 +1,6 @@
 package com.mrbysco.generikmobs.entities;
 
+import com.mrbysco.generikmobs.registry.GenerikRegistry;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -22,17 +23,20 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.Enemy;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
@@ -75,13 +79,17 @@ public class Booger extends Mob implements Enemy {
 		this.entityData.define(HEAD, ItemStack.EMPTY);
 	}
 
+	public static AttributeSupplier.Builder createAttributes() {
+		return Monster.createMonsterAttributes();
+	}
+
 	public void setSize(int size, boolean resetHealth) {
 		int i = Mth.clamp(size, MIN_SIZE, MAX_SIZE);
 		this.entityData.set(ID_SIZE, i);
 		this.reapplyPosition();
 		this.refreshDimensions();
 		this.getAttribute(Attributes.MAX_HEALTH).setBaseValue((double) (i * i));
-		this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue((double) (0.2F + 0.1F * (float) i));
+		this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue((double) (0.3F + 0.1F * (float) i));
 		this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue((double) i);
 		if (resetHealth) {
 			this.setHealth(this.getMaxHealth());
@@ -175,6 +183,14 @@ public class Booger extends Mob implements Enemy {
 					float f3 = Mth.cos(f) * (float) i * 0.5F * f1;
 					this.level().addParticle(this.getParticleType(), this.getX() + (double) f2, this.getY(), this.getZ() + (double) f3, 0.0D, 0.0D, 0.0D);
 				}
+
+			if (!this.level().isClientSide) {
+				BlockState puddleState = GenerikRegistry.SLIME_PUDDLE.get().defaultBlockState();
+				if (puddleState.canSurvive(this.level(), this.blockPosition())) {
+					this.level().setBlockAndUpdate(this.blockPosition(), puddleState);
+					puddleState.onPlace(this.level(), this.blockPosition(), puddleState, false);
+				}
+			}
 
 			this.playSound(this.getSquishSound(), this.getSoundVolume(), ((this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F) / 0.8F);
 			this.targetSquish = -0.5F;

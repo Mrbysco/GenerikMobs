@@ -6,7 +6,6 @@ import com.mrbysco.generikmobs.entities.BoogerEater;
 import com.mrbysco.generikmobs.entities.projectile.BoogerProjectile;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.monster.Monster;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -33,6 +32,6 @@ public class GenerikMobs {
 
 	public static void registerAttributes(EntityAttributeCreationEvent event) {
 		event.put(BOOGER_EATER.get(), BoogerEater.registerAttributes().build());
-		event.put(BOOGER.get(), Monster.createMonsterAttributes().build());
+		event.put(BOOGER.get(), Booger.createAttributes().build());
 	}
 }
