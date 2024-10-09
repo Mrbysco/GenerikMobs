@@ -1,6 +1,6 @@
 package com.mrbysco.generikmobs.entities;
 
-import com.mrbysco.generikmobs.GenerikMod;
+import com.mrbysco.generikmobs.entities.goal.SummonBoogerGoal;
 import com.mrbysco.generikmobs.entities.goal.ThrowBoogerGoal;
 import com.mrbysco.generikmobs.entities.projectile.BoogerProjectile;
 import com.mrbysco.generikmobs.registry.GenerikSounds;
@@ -10,7 +10,6 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AnimationState;
@@ -42,6 +41,7 @@ import org.jetbrains.annotations.Nullable;
 public class BoogerEater extends Monster implements RangedAttackMob {
 	private static final EntityDataAccessor<Byte> MODE = SynchedEntityData.defineId(BoogerEater.class, EntityDataSerializers.BYTE);
 	private static final EntityDataAccessor<Boolean> IS_THROWING = SynchedEntityData.defineId(BoogerEater.class, EntityDataSerializers.BOOLEAN);
+	private static final EntityDataAccessor<Boolean> IS_SUMMONING = SynchedEntityData.defineId(BoogerEater.class, EntityDataSerializers.BOOLEAN);
 
 	private final ThrowBoogerGoal throwGoal = new ThrowBoogerGoal(this, 1.0D, 40, 15.0F);
 	private final MeleeAttackGoal meleeGoal = new MeleeAttackGoal(this, 1.2D, false) {
@@ -75,6 +75,7 @@ public class BoogerEater extends Monster implements RangedAttackMob {
 		super.defineSynchedData();
 		this.getEntityData().define(MODE, (byte) 0);
 		this.getEntityData().define(IS_THROWING, false);
+		this.getEntityData().define(IS_SUMMONING, false);
 	}
 
 	@Override
@@ -90,6 +91,10 @@ public class BoogerEater extends Monster implements RangedAttackMob {
 	@Override
 	protected SoundEvent getDeathSound() {
 		return GenerikSounds.BOOGER_EATER_DEATH.get();
+	}
+
+	public SoundEvent getSummoningSound() {
+		return SoundEvents.EVOKER_CAST_SPELL;
 	}
 
 	public byte getMode() {
@@ -108,11 +113,20 @@ public class BoogerEater extends Monster implements RangedAttackMob {
 		this.entityData.set(IS_THROWING, throwing);
 	}
 
+	public boolean isSummoning() {
+		return this.entityData.get(IS_SUMMONING);
+	}
+
+	public void setSummoning(boolean summoning) {
+		this.entityData.set(IS_SUMMONING, summoning);
+	}
+
 	@Override
 	public void addAdditionalSaveData(CompoundTag tag) {
 		super.addAdditionalSaveData(tag);
 		tag.putByte("BehaviorMode", this.getMode());
 		tag.putBoolean("IsThrowing", this.isThrowing());
+		tag.putBoolean("IsSummoning", this.isSummoning());
 	}
 
 	@Override
@@ -120,6 +134,7 @@ public class BoogerEater extends Monster implements RangedAttackMob {
 		super.readAdditionalSaveData(tag);
 		this.setMode(tag.getByte("BehaviorMode"));
 		this.setThrowing(tag.getBoolean("IsThrowing"));
+		this.setSummoning(tag.getBoolean("IsSummoning"));
 		this.reassessWeaponGoal();
 	}
 
@@ -128,6 +143,7 @@ public class BoogerEater extends Monster implements RangedAttackMob {
 		this.goalSelector.addGoal(2, new RestrictSunGoal(this));
 		this.goalSelector.addGoal(3, new FleeSunGoal(this, 1.0D));
 		this.goalSelector.addGoal(3, new AvoidEntityGoal<>(this, Wolf.class, 6.0F, 1.0D, 1.2D));
+		this.goalSelector.addGoal(4, new SummonBoogerGoal(this));
 		this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
 		this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
 		this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
@@ -139,8 +155,6 @@ public class BoogerEater extends Monster implements RangedAttackMob {
 
 	@Override
 	public void performRangedAttack(LivingEntity livingEntity, float velocity) {
-		GenerikMod.LOGGER.info("Animation time {}", this.throwAnimationState.getAccumulatedTime());
-
 		BoogerProjectile boogerProjectile = new BoogerProjectile(this.level(), this);
 		double d0 = livingEntity.getX() - this.getX();
 		double d1 = livingEntity.getY(0.3333333333333333D) - boogerProjectile.getY();
@@ -174,11 +188,6 @@ public class BoogerEater extends Monster implements RangedAttackMob {
 					break;
 				}
 				case 1, 2: { // Tosser/Summoner mode
-					int i = 20;
-					if (this.level().getDifficulty() != Difficulty.HARD) {
-						i = 40;
-					}
-
 					this.goalSelector.addGoal(4, this.throwGoal);
 					break;
 				}
@@ -220,10 +229,11 @@ public class BoogerEater extends Monster implements RangedAttackMob {
 
 	@Nullable
 	@Override
-	public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
-		pSpawnData = super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
-		this.setMode((byte) 1);
+	public SpawnGroupData finalizeSpawn(ServerLevelAccessor levelAccessor, DifficultyInstance difficultyInstance,
+	                                    MobSpawnType reason, @Nullable SpawnGroupData spawnData, @Nullable CompoundTag data) {
+		spawnData = super.finalizeSpawn(levelAccessor, difficultyInstance, reason, spawnData, data);
+		this.setMode((byte)random.nextInt(3));
 		this.reassessWeaponGoal();
-		return pSpawnData;
+		return spawnData;
 	}
 }
