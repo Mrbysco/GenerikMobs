@@ -21,7 +21,7 @@ public class GenerikMobs {
 
 	public static final RegistryObject<EntityType<Booger>> BOOGER = ENTITY_TYPES.register("booger", () ->
 			EntityType.Builder.<Booger>of(Booger::new, MobCategory.MONSTER)
-					.sized(2.04F, 2.04F).clientTrackingRange(10)
+					.sized(3.5F, 3.5F).clientTrackingRange(10)
 					.build("booger"));
 
 	public static final RegistryObject<EntityType<BoogerProjectile>> BOOGER_PROJECTILE = ENTITY_TYPES.register("booger_projectile", () ->
