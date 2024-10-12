@@ -186,7 +186,7 @@ public class Booger extends Mob implements Enemy {
 
 			if (!this.level().isClientSide) {
 				BlockState puddleState = GenerikRegistry.SLIME_PUDDLE.get().defaultBlockState();
-				if (puddleState.canSurvive(this.level(), this.blockPosition())) {
+				if (getFeetBlockState().canBeReplaced() && puddleState.canSurvive(this.level(), this.blockPosition())) {
 					this.level().setBlockAndUpdate(this.blockPosition(), puddleState);
 					puddleState.onPlace(this.level(), this.blockPosition(), puddleState, false);
 				}
