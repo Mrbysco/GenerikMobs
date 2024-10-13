@@ -236,4 +236,9 @@ public class BoogerEater extends Monster implements RangedAttackMob {
 		this.reassessWeaponGoal();
 		return spawnData;
 	}
+
+	@Override
+	public boolean isBaby() {
+		return true;
+	}
 }
