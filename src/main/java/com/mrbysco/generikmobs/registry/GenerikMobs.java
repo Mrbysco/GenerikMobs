@@ -3,6 +3,7 @@ package com.mrbysco.generikmobs.registry;
 import com.mrbysco.generikmobs.GenerikMod;
 import com.mrbysco.generikmobs.entities.Booger;
 import com.mrbysco.generikmobs.entities.BoogerEater;
+import com.mrbysco.generikmobs.entities.Chet;
 import com.mrbysco.generikmobs.entities.projectile.BoogerProjectile;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -29,9 +30,17 @@ public class GenerikMobs {
 					.sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(10)
 					.build("booger_projectile"));
 
+	public static final RegistryObject<EntityType<Chet>> CHET = ENTITY_TYPES.register("chet", () ->
+			EntityType.Builder.<Chet>of(Chet::new, MobCategory.MONSTER)
+					.sized(0.6F, 1.8F)
+					.clientTrackingRange(32)
+					.updateInterval(2)
+					.build("chet"));
+
 
 	public static void registerAttributes(EntityAttributeCreationEvent event) {
 		event.put(BOOGER_EATER.get(), BoogerEater.registerAttributes().build());
 		event.put(BOOGER.get(), Booger.createAttributes().build());
+		event.put(CHET.get(), Chet.createMobAttributes().build());
 	}
 }

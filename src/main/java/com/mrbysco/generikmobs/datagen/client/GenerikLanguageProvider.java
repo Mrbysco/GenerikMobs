@@ -22,6 +22,7 @@ public class GenerikLanguageProvider extends LanguageProvider {
 		this.addEntityType(GenerikMobs.BOOGER, "Booger");
 		this.addEntityType(GenerikMobs.BOOGER_EATER, "Booger Eater");
 		this.addEntityType(GenerikMobs.BOOGER_PROJECTILE, "Booger Projectile");
+		this.addEntityType(GenerikMobs.CHET, "Chet");
 
 		this.addSubtitle(GenerikSounds.BOOGER_EATER_IDLE, "Booger Eater annoys");
 		this.addSubtitle(GenerikSounds.BOOGER_EATER_HURT, "Booger Eater hurts");
