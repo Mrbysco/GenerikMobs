@@ -266,6 +266,8 @@ public class Booger extends Mob implements Enemy {
 					}
 
 					booger.setCustomName(component);
+					booger.setHeadName(this.getHeadName());
+					booger.setCustomHead(this.getCustomHead());
 					booger.setNoAi(flag);
 					booger.setInvulnerable(this.isInvulnerable());
 					booger.setSize(j, true);
@@ -384,7 +386,7 @@ public class Booger extends Mob implements Enemy {
 		int j = 1 << i;
 		this.setSize(j, true);
 
-		this.setHeadName("mrbysco");
+//		this.setHeadName("mrbysco"); TODO: Only enable to test the heads
 
 		return spawnData;
 	}

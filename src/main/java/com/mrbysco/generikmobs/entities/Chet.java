@@ -100,8 +100,8 @@ public class Chet extends Monster {
 	public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType reason,
 	                                    @Nullable SpawnGroupData spawnData) {
 		spawnData = super.finalizeSpawn(level, difficulty, reason, spawnData);
-		ResolvableProfile profile = new ResolvableProfile(Optional.of("generikb"), Optional.empty(), new PropertyMap());
-		ProfileUtil.resolve(profile).thenAcceptAsync(this::setGameProfileInternal);
+//		ResolvableProfile profile = new ResolvableProfile(Optional.of("generikb"), Optional.empty(), new PropertyMap()); TODO: Only enable to test the heads
+//		ProfileUtil.resolve(profile).thenAcceptAsync(this::setGameProfileInternal);
 //		setTexMex(true);
 
 		return spawnData;
