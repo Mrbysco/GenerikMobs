@@ -16,8 +16,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.server.Services;
 import net.minecraft.server.players.GameProfileCache;
-import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
-import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 
 public class ClientHandler {
 	public static final ModelLayerLocation BOOGER_EATER = new ModelLayerLocation(GenerikMod.modLoc("booger_eater"), "main");

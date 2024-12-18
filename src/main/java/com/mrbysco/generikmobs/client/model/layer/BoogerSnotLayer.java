@@ -57,7 +57,7 @@ public class BoogerSnotLayer<T extends Booger> extends RenderLayer<T, BoogerMode
 			this.getParentModel().copyPropertiesTo(this.model);
 			this.model.prepareMobModel(booger, limbSwing, limbSwingAmount, partialTicks);
 			this.model.setupAnim(booger, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-			this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, LivingEntityRenderer.getOverlayCoords(booger, 0.0F), 1.0F, 1.0F, 1.0F, 1.0F);
+			this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, LivingEntityRenderer.getOverlayCoords(booger, 0.0F), -1);
 		}
 	}
 

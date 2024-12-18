@@ -2,8 +2,8 @@ package com.mrbysco.generikmobs.datagen.client;
 
 import com.mrbysco.generikmobs.GenerikMod;
 import net.minecraft.data.PackOutput;
-import net.minecraftforge.client.model.generators.ItemModelProvider;
-import net.minecraftforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 public class GenerikItemModelProvider extends ItemModelProvider {
 	public GenerikItemModelProvider(PackOutput output, ExistingFileHelper existingFileHelper) {

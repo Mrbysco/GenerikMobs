@@ -8,6 +8,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.network.syncher.SynchedEntityData.Builder;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.DifficultyInstance;
@@ -71,11 +72,11 @@ public class BoogerEater extends Monster implements RangedAttackMob {
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		super.defineSynchedData();
-		this.getEntityData().define(MODE, (byte) 0);
-		this.getEntityData().define(IS_THROWING, false);
-		this.getEntityData().define(IS_SUMMONING, false);
+	protected void defineSynchedData(Builder builder) {
+		super.defineSynchedData(builder);
+		builder.define(MODE, (byte) 0);
+		builder.define(IS_THROWING, false);
+		builder.define(IS_SUMMONING, false);
 	}
 
 	@Override
@@ -230,8 +231,8 @@ public class BoogerEater extends Monster implements RangedAttackMob {
 	@Nullable
 	@Override
 	public SpawnGroupData finalizeSpawn(ServerLevelAccessor levelAccessor, DifficultyInstance difficultyInstance,
-	                                    MobSpawnType reason, @Nullable SpawnGroupData spawnData, @Nullable CompoundTag data) {
-		spawnData = super.finalizeSpawn(levelAccessor, difficultyInstance, reason, spawnData, data);
+	                                    MobSpawnType reason, @Nullable SpawnGroupData spawnData) {
+		spawnData = super.finalizeSpawn(levelAccessor, difficultyInstance, reason, spawnData);
 		this.setMode((byte)random.nextInt(3));
 		this.reassessWeaponGoal();
 		return spawnData;

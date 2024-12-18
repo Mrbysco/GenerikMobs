@@ -1,0 +1,40 @@
+[18Dec2024 00:54:04.347] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher running: args [--mod, generikmobs, --all, --output, D:\\Development\\GenerikMobs\\src\\generated\\resources, --existing, D:\\Development\\GenerikMobs\\src\\main\\resources, --launchTarget, forgedatauserdev, --assetIndex, asset-index, --assetsDir, C:\\Users\\Mrbysco\\.gradle\\caches\\minecraft\\assets, --gameDir, ., --fml.neoForgeVersion, 21.1.84, --fml.fmlVersion, 4.0.34, --fml.mcVersion, 1.21.1, --fml.neoFormVersion, 20240808.144430]
+[18Dec2024 00:54:04.351] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: JVM identified as Amazon.com Inc. OpenJDK 64-Bit Server VM 21.0.4+7-LTS
+[18Dec2024 00:54:04.353] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher 11.0.4+main.d2e20e43 starting: java version 21.0.4 by Amazon.com Inc.; OS Windows 10 arch amd64 version 10.0
+[18Dec2024 00:54:04.455] [main/INFO] [net.neoforged.fml.loading.ImmediateWindowHandler/]: ImmediateWindowProvider not loading because launch target is forgedatauserdev
+[18Dec2024 00:54:04.495] [main/INFO] [mixin/]: SpongePowered MIXIN Subsystem Version=0.8.7 Source=union:/C:/Users/Mrbysco/.gradle/caches/modules-2/files-2.1/net.fabricmc/sponge-mixin/0.15.2+mixin.0.8.7/2af2f021d8e02a0220dc27a7a72b4666d66d44ca/sponge-mixin-0.15.2+mixin.0.8.7.jar%23135!/ Service=ModLauncher Env=CLIENT
+[18Dec2024 00:54:04.706] [main/INFO] [net.neoforged.fml.loading.moddiscovery.ModDiscoverer/SCAN]: Found mod file "neoforge-21.1.84.jar" [locator: neoforge devenv provider ([D:\Development\GenerikMobs\.gradle\repositories\ng_dummy_ng\net\neoforged\neoforge\21.1.84\neoforge-21.1.84.jar])]
+[18Dec2024 00:54:04.724] [main/INFO] [net.neoforged.fml.loading.moddiscovery.ModDiscoverer/SCAN]: Found mod file "neoforge-21.1.84.jar" [locator: neoforge devenv provider ([D:\Development\GenerikMobs\.gradle\repositories\ng_dummy_ng\net\neoforged\neoforge\21.1.84\neoforge-21.1.84.jar])]
+[18Dec2024 00:54:04.737] [main/INFO] [net.neoforged.fml.loading.moddiscovery.ModDiscoverer/SCAN]: Found mod file "main" [locator: userdev mods and services, reader: mod manifest]
+[18Dec2024 00:54:04.748] [main/INFO] [net.neoforged.fml.loading.moddiscovery.ModDiscoverer/SCAN]: Found mod file "neoforge-21.1.84.jar" [locator: userdev mods and services, reader: mod manifest]
+[18Dec2024 00:54:04.753] [main/INFO] [net.neoforged.fml.loading.moddiscovery.ModDiscoverer/SCAN]: Found mod file "jei-1.21.1-neoforge-19.21.0.247.jar" [locator: userdev mods and services, reader: mod manifest]
+[18Dec2024 00:54:04.814] [main/INFO] [net.neoforged.fml.loading.moddiscovery.ModDiscoverer/SCAN]: Found gamelibrary file "mixinextras-neoforge-0.4.1.jar" [locator: userdev mods and services, reader: mod manifest]
+[18Dec2024 00:54:04.908] [main/WARN] [net.neoforged.jarjar.selection.JarSelector/]: Attempted to select a dependency jar for JarJar which was passed in as source: library:mixinextras.neoforge. Using Mod File: C:\Users\Mrbysco\.gradle\caches\modules-2\files-2.1\io.github.llamalad7\mixinextras-neoforge\0.4.1\eff97772ecd0dcf8e52cdbafd3b3ccec425f8314\mixinextras-neoforge-0.4.1.jar
+[18Dec2024 00:54:04.908] [main/INFO] [net.neoforged.fml.loading.moddiscovery.locators.JarInJarDependencyLocator/]: Found 1 dependencies adding them to mods collection
+[18Dec2024 00:54:04.909] [main/INFO] [net.neoforged.fml.loading.moddiscovery.ModDiscoverer/SCAN]: Found library file "neoforge-coremods-21.1.84.jar" [parent: neoforge-21.1.84.jar, locator: jarinjar, reader: mod manifest]
+[18Dec2024 00:54:04.910] [main/INFO] [net.neoforged.fml.loading.moddiscovery.ModDiscoverer/]: 
+     Mod List:
+		Name Version (Mod Id)
+
+		Generik Mobs 0.0NONE (generikmobs)
+		Just Enough Items 19.21.0.247 (jei)
+		Minecraft 1.21.1 (minecraft)
+		NeoForge 21.1.84 (neoforge)
+[18Dec2024 00:54:05.419] [main/INFO] [cpw.mods.modlauncher.LaunchServiceHandler/MODLAUNCHER]: Launching target 'forgedatauserdev' with arguments [--gameDir, ., --assetsDir, C:\Users\Mrbysco\.gradle\caches\minecraft\assets, --mod, generikmobs, --all, --output, D:\\Development\\GenerikMobs\\src\\generated\\resources, --existing, D:\\Development\\GenerikMobs\\src\\main\\resources, --assetIndex, asset-index]
+[18Dec2024 00:54:05.797] [main/INFO] [net.neoforged.neoforge.data.loading.DatagenModLoader/]: Initializing Data Gatherer for mods [generikmobs]
+[18Dec2024 00:54:05.810] [main/INFO] [MixinExtras|Service/]: Initializing MixinExtras via com.llamalad7.mixinextras.service.MixinExtrasServiceImpl(version=0.4.1).
+[18Dec2024 00:54:09.421] [modloading-worker-0/INFO] [net.neoforged.neoforge.common.NeoForgeMod/NEOFORGE-MOD]: NeoForge mod loading, version 21.1.84, for MC 1.21.1
+[18Dec2024 00:54:09.518] [modloading-worker-0/INFO] [mezz.jei.library.load.PluginCaller/]: Sending ConfigManager...
+[18Dec2024 00:54:09.524] [modloading-worker-0/INFO] [mezz.jei.library.load.PluginCaller/]: Sending ConfigManager took 3.715 ms
+[18Dec2024 00:54:09.719] [main/WARN] [net.minecraft.server.packs.VanillaPackResourcesBuilder/]: Assets URL 'union:/D:/Development/GenerikMobs/.gradle/repositories/ng_dummy_ng/net/neoforged/neoforge/21.1.84/neoforge-21.1.84.jar%23189!/assets/.mcassetsroot' uses unexpected schema
+[18Dec2024 00:54:09.719] [main/WARN] [net.minecraft.server.packs.VanillaPackResourcesBuilder/]: Assets URL 'union:/D:/Development/GenerikMobs/.gradle/repositories/ng_dummy_ng/net/neoforged/neoforge/21.1.84/neoforge-21.1.84.jar%23189!/data/.mcassetsroot' uses unexpected schema
+[18Dec2024 00:54:09.823] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Languages: en_us for mod: generikmobs
+[18Dec2024 00:54:09.828] [main/INFO] [net.minecraft.data.DataGenerator/]: Languages: en_us for mod: generikmobs finished after 4 ms
+[18Dec2024 00:54:09.828] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Sound Definitions
+[18Dec2024 00:54:09.834] [main/INFO] [net.minecraft.data.DataGenerator/]: Sound Definitions finished after 5 ms
+[18Dec2024 00:54:09.834] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Block States: generikmobs
+[18Dec2024 00:54:09.841] [main/INFO] [net.minecraft.data.DataGenerator/]: Block States: generikmobs finished after 7 ms
+[18Dec2024 00:54:09.842] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Item Models: generikmobs
+[18Dec2024 00:54:09.844] [main/INFO] [net.minecraft.data.DataGenerator/]: Item Models: generikmobs finished after 2 ms
+[18Dec2024 00:54:09.844] [main/INFO] [net.minecraft.data.DataGenerator/]: All providers took: 21 ms
+[18Dec2024 00:54:09.851] [main/INFO] [net.minecraft.data.HashCache/]: Caching: total files: 5, old count: 3, new count: 5, removed stale: 1, written: 1

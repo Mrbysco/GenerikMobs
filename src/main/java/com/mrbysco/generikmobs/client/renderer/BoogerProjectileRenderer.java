@@ -31,7 +31,7 @@ public class BoogerProjectileRenderer extends EntityRenderer<BoogerProjectile> {
 		poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(partialTicks, boogerProjectile.xRotO, boogerProjectile.getXRot())));
 		this.model.setupAnim(boogerProjectile, partialTicks, 0.0F, -0.1F, 0.0F, 0.0F);
 		VertexConsumer vertexConsumer = bufferSource.getBuffer(this.model.renderType(BOOGER_PROJECTILE_TEXTURE));
-		this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+		this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, -1);
 		poseStack.popPose();
 		super.render(boogerProjectile, entityYaw, partialTicks, poseStack, bufferSource, packedLight);
 	}

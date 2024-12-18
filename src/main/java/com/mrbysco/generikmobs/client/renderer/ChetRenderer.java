@@ -1,8 +1,5 @@
 package com.mrbysco.generikmobs.client.renderer;
 
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.minecraft.MinecraftProfileTexture;
-import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mrbysco.generikmobs.GenerikMod;
 import com.mrbysco.generikmobs.client.ClientHandler;
@@ -15,16 +12,15 @@ import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
-import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.client.resources.SkinManager;
 import net.minecraft.resources.ResourceLocation;
-
-import java.util.Map;
+import net.minecraft.world.item.component.ResolvableProfile;
 
 public class ChetRenderer extends LivingEntityRenderer<Chet, EntityModel<Chet>> {
 	private final ChetModel chetModel;
 	private final ChetModel chetSlimModel;
 	private final TexChetModel texModel;
+	public boolean isSlim = false;
 	public static final ResourceLocation defaultTexture = GenerikMod.modLoc("textures/entity/chet/generikskin1.png");
 	public static final ResourceLocation otherTexture = GenerikMod.modLoc("textures/entity/chet/generikskin2.png");
 
@@ -39,27 +35,26 @@ public class ChetRenderer extends LivingEntityRenderer<Chet, EntityModel<Chet>> 
 //		this.addLayer(new CustomHeadLayer<>(this, context.getModelSet(), context.getItemInHandRenderer()));
 	}
 
-	private ResourceLocation getSkin(GameProfile gameProfile) {
-		if (!gameProfile.isComplete()) {
+	private ResourceLocation getSkin(ResolvableProfile resolvableProfile) {
+		SkinManager skinmanager = Minecraft.getInstance().getSkinManager();
+		if (resolvableProfile != null)
+			return skinmanager.getInsecureSkin(resolvableProfile.gameProfile()).texture();
+		else
 			return defaultTexture;
-		} else {
-			final Minecraft minecraft = Minecraft.getInstance();
-			SkinManager skinManager = minecraft.getSkinManager();
-			final Map<Type, MinecraftProfileTexture> loadSkinFromCache = skinManager.getInsecureSkinInformation(gameProfile); // returned map may or may not be typed
-			if (loadSkinFromCache.containsKey(MinecraftProfileTexture.Type.SKIN)) {
-				return skinManager.registerTexture(loadSkinFromCache.get(Type.SKIN), Type.SKIN);
-			} else {
-				return DefaultPlayerSkin.getDefaultSkin(gameProfile.getId());
-			}
-		}
 	}
 
 	@Override
 	public void render(Chet chet, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int packedLightIn) {
+		SkinManager skinmanager = Minecraft.getInstance().getSkinManager();
+		if (chet.getGameProfile().isPresent()) {
+			if (isSlim != skinmanager.getInsecureSkin(chet.getGameProfile().get().gameProfile()).model().id().equals("slim"))
+				isSlim = !isSlim;
+		}
+
 		if (chet.isTexMex()) {
 			this.model = this.texModel;
 		} else {
-			this.model = chet.isSlim() ? this.chetModel : chetSlimModel;
+			this.model = isSlim ? this.chetModel : chetSlimModel;
 		}
 		super.render(chet, entityYaw, partialTicks, poseStack, bufferSource, packedLightIn);
 	}

@@ -1,15 +1,15 @@
 package com.mrbysco.generikmobs.entities;
 
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.minecraft.MinecraftProfileTexture;
+import com.mojang.authlib.properties.PropertyMap;
+import com.mrbysco.generikmobs.GenerikMod;
 import com.mrbysco.generikmobs.registry.GenerikSerializers;
 import com.mrbysco.generikmobs.util.ProfileUtil;
-import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.network.syncher.SynchedEntityData.Builder;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EntityType;
@@ -17,15 +17,15 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
-import java.util.UUID;
 
 public class Chet extends Monster {
-	private static final EntityDataAccessor<Optional<GameProfile>> GAMEPROFILE = SynchedEntityData.defineId(Chet.class, GenerikSerializers.OPTIONAL_GAME_PROFILE.get());
+	private static final EntityDataAccessor<Optional<ResolvableProfile>> RESOLVABLE_PROFILE = SynchedEntityData.defineId(Chet.class, GenerikSerializers.OPTIONAL_RESOLVABLE_PROFILE.get());
 	private static final EntityDataAccessor<Boolean> TEX_MEX = SynchedEntityData.defineId(Chet.class, EntityDataSerializers.BOOLEAN);
 	public final AnimationState idleAnimationState = new AnimationState();
 	private int idleAnimationTimeout = 0;
@@ -38,10 +38,10 @@ public class Chet extends Monster {
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		super.defineSynchedData();
-		this.entityData.define(GAMEPROFILE, Optional.empty());
-		this.entityData.define(TEX_MEX, false);
+	protected void defineSynchedData(Builder builder) {
+		super.defineSynchedData(builder);
+		builder.define(RESOLVABLE_PROFILE, Optional.empty());
+		builder.define(TEX_MEX, false);
 	}
 
 	public boolean isTexMex() {
@@ -52,49 +52,27 @@ public class Chet extends Monster {
 		this.entityData.set(TEX_MEX, texMex);
 	}
 
-	public Optional<GameProfile> getGameProfile() {
-		return entityData.get(GAMEPROFILE);
+	public Optional<ResolvableProfile> getGameProfile() {
+		return entityData.get(RESOLVABLE_PROFILE);
 	}
 
-	public void setGameProfile(String name) {
-		setGameProfile(new GameProfile(null, name));
-	}
-
-	public void setGameProfile(UUID id) {
-		setGameProfile(new GameProfile(id, null));
-	}
-
-	public void setGameProfile(GameProfile playerProfile) {
-		// Check if the content of the profile is empty
-		if (playerProfile.getId() == null && playerProfile.getName() == null) {
-			return;
-		}
-
-		ProfileUtil.updateGameProfile(playerProfile, this::setGameProfileInternal);
-	}
-
-	protected void setGameProfileInternal(GameProfile playerProfile) {
-		if (playerProfile != null) {
-			entityData.set(GAMEPROFILE, Optional.of(playerProfile));
+	protected void setGameProfileInternal(ResolvableProfile profile) {
+		if (profile != null) {
+			entityData.set(RESOLVABLE_PROFILE, Optional.of(profile));
 		} else {
-			entityData.set(GAMEPROFILE, Optional.empty());
+			entityData.set(RESOLVABLE_PROFILE, Optional.empty());
 		}
-	}
-
-	public void setSlim(boolean slim) {
-		this.isSlim = slim;
-	}
-
-	public boolean isSlim() {
-		return this.isSlim;
 	}
 
 	@Override
 	public void addAdditionalSaveData(CompoundTag compound) {
 		super.addAdditionalSaveData(compound);
-		compound.putBoolean("gameProfileExists", entityData.get(GAMEPROFILE).isPresent());
+		compound.putBoolean("profileExists", entityData.get(RESOLVABLE_PROFILE).isPresent());
 		if (getGameProfile().isPresent()) {
-			compound.put("gameProfile", NbtUtils.writeGameProfile(new CompoundTag(), entityData.get(GAMEPROFILE).get()));
+			ResolvableProfile.CODEC.encodeStart(NbtOps.INSTANCE, entityData.get(RESOLVABLE_PROFILE).get())
+					.resultOrPartial(GenerikMod.LOGGER::error)
+					.ifPresent(profile -> compound.put("profile", profile));
+
 		}
 		compound.putBoolean("texMex", isTexMex());
 	}
@@ -102,8 +80,14 @@ public class Chet extends Monster {
 	@Override
 	public void load(CompoundTag compound) {
 		super.load(compound);
-		setGameProfileInternal(!compound.getBoolean("gameProfileExists") ? null :
-				NbtUtils.readGameProfile(compound.getCompound("gameProfile")));
+		boolean profileExists = compound.getBoolean("profileExists");
+		if (profileExists) {
+			entityData.set(RESOLVABLE_PROFILE, ResolvableProfile.CODEC
+					.parse(NbtOps.INSTANCE, compound.get("profile"))
+					.resultOrPartial(p_332637_ -> GenerikMod.LOGGER.error("Failed to load profile from Chet: {}", p_332637_)));
+		} else {
+			entityData.set(RESOLVABLE_PROFILE, Optional.empty());
+		}
 	}
 
 	@Override
@@ -114,9 +98,10 @@ public class Chet extends Monster {
 
 	@Override
 	public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType reason,
-	                                    @Nullable SpawnGroupData spawnData, @Nullable CompoundTag dataTag) {
-		spawnData = super.finalizeSpawn(level, difficulty, reason, spawnData, dataTag);
-		setGameProfile("generikb");
+	                                    @Nullable SpawnGroupData spawnData) {
+		spawnData = super.finalizeSpawn(level, difficulty, reason, spawnData);
+		ResolvableProfile profile = new ResolvableProfile(Optional.of("generikb"), Optional.empty(), new PropertyMap());
+		ProfileUtil.resolve(profile).thenAcceptAsync(this::setGameProfileInternal);
 //		setTexMex(true);
 
 		return spawnData;
@@ -134,18 +119,7 @@ public class Chet extends Monster {
 
 	@Override
 	public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
-		if (GAMEPROFILE.equals(key) && this.level().isClientSide()) {
-			this.getGameProfile().ifPresent(gameprofile -> {
-				if (gameprofile.isComplete()) {
-					Minecraft.getInstance().getSkinManager().registerSkins(gameprofile, (textureType, textureLocation, profileTexture) -> {
-						if (textureType.equals(MinecraftProfileTexture.Type.SKIN)) {
-							String metadata = profileTexture.getMetadata("model");
-							this.setSlim(metadata != null && metadata.equals("slim"));
-						}
-					}, true);
-				}
-			});
-		}
+		super.onSyncedDataUpdated(key);
 	}
 
 	@Override

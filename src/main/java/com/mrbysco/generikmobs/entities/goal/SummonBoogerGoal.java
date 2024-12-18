@@ -4,7 +4,6 @@ import com.mrbysco.generikmobs.entities.Booger;
 import com.mrbysco.generikmobs.entities.BoogerEater;
 import com.mrbysco.generikmobs.registry.GenerikMobs;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.LivingEntity;
@@ -12,8 +11,6 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
-
-import java.util.EnumSet;
 
 public class SummonBoogerGoal extends Goal {
 	private final TargetingConditions boogerCountTargeting = TargetingConditions.forNonCombat()
@@ -98,7 +95,7 @@ public class SummonBoogerGoal extends Goal {
 		Booger booger = GenerikMobs.BOOGER.get().create(caster.level());
 		if (booger != null) {
 			booger.moveTo(blockpos, 0.0F, 0.0F);
-			booger.finalizeSpawn(serverlevel, caster.level().getCurrentDifficultyAt(blockpos), MobSpawnType.MOB_SUMMONED, (SpawnGroupData) null, (CompoundTag) null);
+			booger.finalizeSpawn(serverlevel, caster.level().getCurrentDifficultyAt(blockpos), MobSpawnType.MOB_SUMMONED, (SpawnGroupData) null);
 			booger.setTarget(caster.getTarget());
 			serverlevel.addFreshEntityWithPassengers(booger);
 		}

@@ -1,0 +1,24 @@
+/summon generikmobs:chet
+/summon generikmobs:booger
+/kill @e[type=!player]
+/summon generikmobs:booger
+/kill @e[type=!player]
+/summon generikmobs:booger
+/kill @e[type=!player]
+/summon generikmobs:booger
+/kill @e[type=!player]
+/summon generikmobs:booger
+/kill @e[type=!player]
+/summon generikmobs:booger
+/kill @e[type=!player]
+/summon generikmobs:booger
+/kill @e[type=!player]
+/summon generikmobs:booger
+/give @p player_head[profile={name:"mrbysco"}] 1
+/kill @e[type=!player]
+/summon generikmobs:booger
+/kill @e[type=!player]
+/summon generikmobs:chet
+/summon generikmobs:booger_eater
+/summon generikmobs:chet
+/summon generikmobs:booger

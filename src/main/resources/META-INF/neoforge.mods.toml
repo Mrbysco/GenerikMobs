@@ -1,0 +1,26 @@
+modLoader="javafml"
+loaderVersion="[4,)"
+issueTrackerURL="https://github.com/Mrbysco/GenerikMobs/issues"
+license="MIT"
+
+[[mods]]
+modId="generikmobs"
+version="${file.jarVersion}"
+displayName="Generik Mobs"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/generik-mobs"
+authors="Mrbysco, GenerikB"
+description='''
+Booger me Eaters... Adds various mobs that are perfect for stream integration
+'''
+[[dependencies.generikmobs]]
+modId="minecraft"
+type="required"
+versionRange="[1.21,1.22)"
+ordering="NONE"
+side="BOTH"
+[[dependencies.generikmobs]]
+modId="neoforge"
+type="required"
+versionRange="[21.1.1,)"
+ordering="NONE"
+side="BOTH"

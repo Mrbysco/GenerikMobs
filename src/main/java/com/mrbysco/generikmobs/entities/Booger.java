@@ -1,6 +1,9 @@
 package com.mrbysco.generikmobs.entities;
 
+import com.mojang.authlib.properties.PropertyMap;
 import com.mrbysco.generikmobs.registry.GenerikRegistry;
+import com.mrbysco.generikmobs.util.ProfileUtil;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -8,6 +11,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.network.syncher.SynchedEntityData.Builder;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
@@ -34,6 +39,8 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.ResolvableProfile;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
@@ -41,6 +48,7 @@ import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
 import java.util.EnumSet;
+import java.util.Optional;
 
 public class Booger extends Mob implements Enemy {
 	private static final EntityDataAccessor<Integer> ID_SIZE = SynchedEntityData.defineId(Booger.class, EntityDataSerializers.INT);
@@ -72,11 +80,11 @@ public class Booger extends Mob implements Enemy {
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		super.defineSynchedData();
-		this.entityData.define(ID_SIZE, 1);
-		this.entityData.define(HEAD_NAME, "");
-		this.entityData.define(HEAD, ItemStack.EMPTY);
+	protected void defineSynchedData(Builder builder) {
+		super.defineSynchedData(builder);
+		builder.define(ID_SIZE, 1);
+		builder.define(HEAD_NAME, "");
+		builder.define(HEAD, ItemStack.EMPTY);
 	}
 
 	public static AttributeSupplier.Builder createAttributes() {
@@ -114,8 +122,11 @@ public class Booger extends Mob implements Enemy {
 
 		if (getCustomHead().isEmpty() && !name.isEmpty()) {
 			ItemStack headStack = new ItemStack(Items.PLAYER_HEAD);
-			headStack.getOrCreateTag().putString("SkullOwner", name);
-			this.entityData.set(HEAD, headStack);
+			ResolvableProfile profile = new ResolvableProfile(Optional.of(name), Optional.empty(), new PropertyMap());
+			ProfileUtil.resolve(profile).thenAcceptAsync(resolvedProfile -> {
+				headStack.set(DataComponents.PROFILE, resolvedProfile);
+				this.entityData.set(HEAD, headStack);
+			});
 		}
 	}
 
@@ -134,7 +145,7 @@ public class Booger extends Mob implements Enemy {
 		tag.putBoolean("wasOnGround", this.wasOnGround);
 		tag.putString("HeadName", this.getHeadName());
 		if (!getCustomHead().isEmpty())
-			tag.put("Head", this.getCustomHead().save(new CompoundTag()));
+			tag.put("Head", this.getCustomHead().saveOptional(this.registryAccess()));
 	}
 
 	/**
@@ -147,7 +158,7 @@ public class Booger extends Mob implements Enemy {
 		this.wasOnGround = tag.getBoolean("wasOnGround");
 		this.setHeadName(tag.getString("HeadName"));
 		if (tag.contains("Head", 10))
-			this.setCustomHead(ItemStack.of(tag.getCompound("Head")));
+			this.setCustomHead(ItemStack.parseOptional(this.registryAccess(), tag.getCompound("Head")));
 	}
 
 	public boolean isTiny() {
@@ -186,7 +197,7 @@ public class Booger extends Mob implements Enemy {
 
 			if (!this.level().isClientSide) {
 				BlockState puddleState = GenerikRegistry.SLIME_PUDDLE.get().defaultBlockState();
-				if (getFeetBlockState().canBeReplaced() && puddleState.canSurvive(this.level(), this.blockPosition())) {
+				if (getBlockStateOn().canBeReplaced() && puddleState.canSurvive(this.level(), this.blockPosition())) {
 					this.level().setBlockAndUpdate(this.blockPosition(), puddleState);
 					puddleState.onPlace(this.level(), this.blockPosition(), puddleState, false);
 				}
@@ -288,19 +299,18 @@ public class Booger extends Mob implements Enemy {
 		}
 	}
 
-	protected void dealDamage(LivingEntity pLivingEntity) {
+	protected void dealDamage(LivingEntity livingEntity) {
 		if (this.isAlive()) {
 			int i = this.getSize();
-			if (this.distanceToSqr(pLivingEntity) < 0.6D * (double) i * 0.6D * (double) i && this.hasLineOfSight(pLivingEntity) && pLivingEntity.hurt(this.damageSources().mobAttack(this), this.getAttackDamage())) {
+			DamageSource damagesource = this.damageSources().mobAttack(this);
+			if (this.distanceToSqr(livingEntity) < 0.6D * (double) i * 0.6D * (double) i && this.hasLineOfSight(livingEntity) &&
+					livingEntity.hurt(damagesource, this.getAttackDamage())) {
 				this.playSound(SoundEvents.SLIME_ATTACK, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
-				this.doEnchantDamageEffects(this, pLivingEntity);
+				if (this.level() instanceof ServerLevel serverlevel) {
+					EnchantmentHelper.doPostAttackEffects(serverlevel, livingEntity, damagesource);
+				}
 			}
 		}
-	}
-
-	@Override
-	protected float getStandingEyeHeight(Pose pPose, EntityDimensions pSize) {
-		return 0.625F * pSize.height;
 	}
 
 	/**
@@ -355,7 +365,7 @@ public class Booger extends Mob implements Enemy {
 	 * Causes this entity to do an upwards motion (jumping).
 	 */
 	@Override
-	protected void jumpFromGround() {
+	public void jumpFromGround() {
 		Vec3 vec3 = this.getDeltaMovement();
 		this.setDeltaMovement(vec3.x, (double) this.getJumpPower(), vec3.z);
 		this.hasImpulse = true;
@@ -363,8 +373,8 @@ public class Booger extends Mob implements Enemy {
 
 	@Nullable
 	@Override
-	public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData spawnData, @Nullable CompoundTag dataTag) {
-		spawnData = super.finalizeSpawn(level, difficulty, reason, spawnData, dataTag);
+	public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData spawnData) {
+		spawnData = super.finalizeSpawn(level, difficulty, reason, spawnData);
 		RandomSource randomSource = level.getRandom();
 		int i = randomSource.nextInt(3);
 		if (i < 2 && randomSource.nextFloat() < 0.5F * difficulty.getSpecialMultiplier()) {
@@ -373,6 +383,8 @@ public class Booger extends Mob implements Enemy {
 
 		int j = 1 << i;
 		this.setSize(j, true);
+
+		this.setHeadName("mrbysco");
 
 		return spawnData;
 	}
@@ -387,8 +399,8 @@ public class Booger extends Mob implements Enemy {
 	}
 
 	@Override
-	public EntityDimensions getDimensions(Pose pPose) {
-		return super.getDimensions(pPose).scale(0.255F * (float) this.getSize());
+	public EntityDimensions getDefaultDimensions(Pose pose) {
+		return super.getDefaultDimensions(pose).scale((float) this.getSize());
 	}
 
 	/**

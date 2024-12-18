@@ -4,6 +4,7 @@ import com.mrbysco.generikmobs.entities.BoogerEater;
 import com.mrbysco.generikmobs.registry.GenerikMobs;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
+import net.minecraft.network.syncher.SynchedEntityData.Builder;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -16,6 +17,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.event.EventHooks;
 
 public class BoogerProjectile extends Projectile {
 	public BoogerProjectile(EntityType<? extends BoogerProjectile> entityType, Level level) {
@@ -37,7 +39,7 @@ public class BoogerProjectile extends Projectile {
 		super.tick();
 		Vec3 delta = this.getDeltaMovement();
 		HitResult hitresult = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
-		if (hitresult.getType() != HitResult.Type.MISS && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, hitresult))
+		if (hitresult.getType() != HitResult.Type.MISS && !EventHooks.onProjectileImpact(this, hitresult))
 			this.onHit(hitresult);
 		double d0 = this.getX() + delta.x;
 		double d1 = this.getY() + delta.y;
@@ -90,7 +92,7 @@ public class BoogerProjectile extends Projectile {
 	}
 
 	@Override
-	protected void defineSynchedData() {
+	protected void defineSynchedData(Builder builder) {
 	}
 
 	@Override

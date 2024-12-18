@@ -5,32 +5,32 @@ import com.mrbysco.generikmobs.entities.Booger;
 import com.mrbysco.generikmobs.entities.BoogerEater;
 import com.mrbysco.generikmobs.entities.Chet;
 import com.mrbysco.generikmobs.entities.projectile.BoogerProjectile;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class GenerikMobs {
-	public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, GenerikMod.MOD_ID);
+	public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, GenerikMod.MOD_ID);
 
-	public static final RegistryObject<EntityType<BoogerEater>> BOOGER_EATER = ENTITY_TYPES.register("booger_eater", () ->
+	public static final DeferredHolder<EntityType<?>, EntityType<BoogerEater>> BOOGER_EATER = ENTITY_TYPES.register("booger_eater", () ->
 			EntityType.Builder.<BoogerEater>of(BoogerEater::new, MobCategory.MONSTER)
 					.sized(0.5F, 1.0F).clientTrackingRange(10)
 					.build("booger_eater"));
 
-	public static final RegistryObject<EntityType<Booger>> BOOGER = ENTITY_TYPES.register("booger", () ->
+	public static final DeferredHolder<EntityType<?>, EntityType<Booger>> BOOGER = ENTITY_TYPES.register("booger", () ->
 			EntityType.Builder.<Booger>of(Booger::new, MobCategory.MONSTER)
-					.sized(3.5F, 3.5F).clientTrackingRange(10)
+					.sized(0.52F, 0.52F).eyeHeight(0.325F).spawnDimensionsScale(4.0F).clientTrackingRange(10)
 					.build("booger"));
 
-	public static final RegistryObject<EntityType<BoogerProjectile>> BOOGER_PROJECTILE = ENTITY_TYPES.register("booger_projectile", () ->
+	public static final DeferredHolder<EntityType<?>, EntityType<BoogerProjectile>> BOOGER_PROJECTILE = ENTITY_TYPES.register("booger_projectile", () ->
 			EntityType.Builder.<BoogerProjectile>of(BoogerProjectile::new, MobCategory.MISC)
 					.sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(10)
 					.build("booger_projectile"));
 
-	public static final RegistryObject<EntityType<Chet>> CHET = ENTITY_TYPES.register("chet", () ->
+	public static final DeferredHolder<EntityType<?>, EntityType<Chet>> CHET = ENTITY_TYPES.register("chet", () ->
 			EntityType.Builder.<Chet>of(Chet::new, MobCategory.MONSTER)
 					.sized(0.6F, 1.8F)
 					.clientTrackingRange(32)

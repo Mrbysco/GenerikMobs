@@ -23,7 +23,7 @@ public class BoogerRenderer extends MobRenderer<Booger, BoogerModel<Booger>> {
 	@Override
 	public void render(Booger booger, float entityYaw, float partialTicks, PoseStack poseStack,
 	                   MultiBufferSource bufferSource, int packedLight) {
-		this.shadowRadius = 0.25F * (float) booger.getSize();
+		this.shadowRadius = 0.25F * (float)booger.getSize();
 		super.render(booger, entityYaw, partialTicks, poseStack, bufferSource, packedLight);
 	}
 

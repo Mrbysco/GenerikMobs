@@ -121,8 +121,8 @@ public class BoogerEaterModel<T extends BoogerEater> extends HierarchicalModel<T
 	}
 
 	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		super.renderToBuffer(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int color) {
+		super.renderToBuffer(poseStack, vertexConsumer, packedLight, packedOverlay, color);
 	}
 
 	@Override
