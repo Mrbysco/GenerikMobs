@@ -385,8 +385,8 @@ public class Booger extends Mob implements Enemy {
 
 		int j = 1 << i;
 		this.setSize(j, true);
-
-//		this.setHeadName("mrbysco"); TODO: Only enable to test the heads
+		//Only enable to test the heads
+//		this.setHeadName("mrbysco");
 
 		return spawnData;
 	}
