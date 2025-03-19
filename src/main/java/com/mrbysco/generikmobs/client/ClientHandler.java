@@ -5,11 +5,13 @@ import com.mrbysco.generikmobs.GenerikMod;
 import com.mrbysco.generikmobs.client.model.BoogerEaterModel;
 import com.mrbysco.generikmobs.client.model.BoogerModel;
 import com.mrbysco.generikmobs.client.model.BoogerProjectileModel;
+import com.mrbysco.generikmobs.client.model.HummingbirdModel;
 import com.mrbysco.generikmobs.client.model.TexChetModel;
 import com.mrbysco.generikmobs.client.renderer.BoogerEaterRenderer;
 import com.mrbysco.generikmobs.client.renderer.BoogerProjectileRenderer;
 import com.mrbysco.generikmobs.client.renderer.BoogerRenderer;
 import com.mrbysco.generikmobs.client.renderer.ChetRenderer;
+import com.mrbysco.generikmobs.client.renderer.HummingbirdRenderer;
 import com.mrbysco.generikmobs.registry.GenerikMobs;
 import com.mrbysco.generikmobs.util.ProfileUtil;
 import net.minecraft.client.Minecraft;
@@ -25,12 +27,14 @@ public class ClientHandler {
 	public static final ModelLayerLocation BOOGER = new ModelLayerLocation(GenerikMod.modLoc("booger"), "main");
 	public static final ModelLayerLocation BOOGER_OUTER = new ModelLayerLocation(GenerikMod.modLoc("booger"), "outer");
 	public static final ModelLayerLocation TEX_CHET = new ModelLayerLocation(GenerikMod.modLoc("chet"), "tex");
+	public static final ModelLayerLocation HUMMINGBIRD = new ModelLayerLocation(GenerikMod.modLoc("hummingbird"), "tex");
 
 	public static void registerEntityRenders(EntityRenderersEvent.RegisterRenderers event) {
 		event.registerEntityRenderer(GenerikMobs.BOOGER_EATER.get(), BoogerEaterRenderer::new);
 		event.registerEntityRenderer(GenerikMobs.BOOGER_PROJECTILE.get(), BoogerProjectileRenderer::new);
 		event.registerEntityRenderer(GenerikMobs.BOOGER.get(), BoogerRenderer::new);
 		event.registerEntityRenderer(GenerikMobs.CHET.get(), ChetRenderer::new);
+		event.registerEntityRenderer(GenerikMobs.HUMMINGBIRD.get(), HummingbirdRenderer::new);
 	}
 
 	public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
@@ -39,6 +43,7 @@ public class ClientHandler {
 		event.registerLayerDefinition(BOOGER, BoogerModel::createBodyLayer);
 		event.registerLayerDefinition(BOOGER_OUTER, BoogerModel::createSnotLayer);
 		event.registerLayerDefinition(TEX_CHET, TexChetModel::createBodyLayer);
+		event.registerLayerDefinition(HUMMINGBIRD, HummingbirdModel::createBodyLayer);
 	}
 
 	public static void onLogin(ClientPlayerNetworkEvent.LoggingIn event) {

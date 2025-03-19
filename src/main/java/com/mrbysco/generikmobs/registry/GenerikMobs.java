@@ -4,6 +4,7 @@ import com.mrbysco.generikmobs.GenerikMod;
 import com.mrbysco.generikmobs.entities.Booger;
 import com.mrbysco.generikmobs.entities.BoogerEater;
 import com.mrbysco.generikmobs.entities.Chet;
+import com.mrbysco.generikmobs.entities.Hummingbird;
 import com.mrbysco.generikmobs.entities.projectile.BoogerProjectile;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.EntityType;
@@ -37,10 +38,16 @@ public class GenerikMobs {
 					.updateInterval(2)
 					.build("chet"));
 
+	public static final DeferredHolder<EntityType<?>, EntityType<Hummingbird>> HUMMINGBIRD = ENTITY_TYPES.register("hummingbird", () ->
+			EntityType.Builder.<Hummingbird>of(Hummingbird::new, MobCategory.MONSTER)
+					.sized(0.5F, 0.7F).clientTrackingRange(10)
+					.build("hummingbird"));
+
 
 	public static void registerAttributes(EntityAttributeCreationEvent event) {
 		event.put(BOOGER_EATER.get(), BoogerEater.registerAttributes().build());
 		event.put(BOOGER.get(), Booger.createAttributes().build());
 		event.put(CHET.get(), Chet.createMobAttributes().build());
+		event.put(HUMMINGBIRD.get(), Hummingbird.createAttributes().build());
 	}
 }
