@@ -2,7 +2,6 @@ package com.mrbysco.generikmobs.client.model;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mrbysco.generikmobs.client.animation.BoogerEaterAnimations;
 import com.mrbysco.generikmobs.client.animation.HummingbirdAnimations;
 import com.mrbysco.generikmobs.entities.Hummingbird;
 import net.minecraft.client.model.HierarchicalModel;
@@ -13,8 +12,10 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.client.renderer.RenderType;
 
 public class HummingbirdModel<T extends Hummingbird> extends HierarchicalModel<T> {
+	private final ModelPart root;
 	private final ModelPart main;
 	private final ModelPart main_2;
 	private final ModelPart body;
@@ -33,7 +34,9 @@ public class HummingbirdModel<T extends Hummingbird> extends HierarchicalModel<T
 	private final ModelPart left_eyebrow;
 
 	public HummingbirdModel(ModelPart root) {
-		this.main = root.getChild("main");
+		super(RenderType::entityCutoutNoCull);
+		this.root = root;
+		this.main = this.root.getChild("main");
 		this.main_2 = this.main.getChild("main_2");
 		this.body = this.main_2.getChild("body");
 		this.body_2 = this.body.getChild("body_2");
@@ -115,6 +118,6 @@ public class HummingbirdModel<T extends Hummingbird> extends HierarchicalModel<T
 
 	@Override
 	public ModelPart root() {
-		return this.main;
+		return this.root;
 	}
 }
